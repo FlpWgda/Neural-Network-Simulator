@@ -1,7 +1,7 @@
 # Feedforward Neural Network Simulator
 
 Web simulator presenting a learning process of small feedforward neural networks 
-using backpropagation algorithm in solving the problem of function approximation/curve fitting. 
+using backpropagation algorithm in solving the problem of function to data points approximation/curve fitting. 
 
 ## Libraries used
 
