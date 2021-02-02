@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Neural Network Simulator</title>
+        <link rel="stylesheet" href="style.css">
+        
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0-beta.6"></script>
+        <script src="https://unpkg.com/mathjs@8.0.1/lib/browser/math.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/machinelearn/machinelearn.min.js"></script>
+
+    </head>
+    <body>
+
+        <div id="controls">
+            <img class='icon controls' id="startStopButton" src="images/play_arrow-black-48dp.svg">
+            <div class= "setEpochsField">
+                <input type="number" id="epochs" min="1" max="1000" value="500">
+                <button id="setEpochsButton" class= "setEpochsButton" type="button">
+                    <img class="icon" id="nextSetEpochsInput" src="images/fast_forward-48dp.svg" width="20" height="20">
+                </button>
+            </div>
+            <button id="next1EpochsButton" class= "nextEpochsButton" type="button">
+                <img src="images/fast_forward-48dp.svg"
+                     width="20" height="20">1
+            </button>
+            <button id="next10EpochsButton" class= "nextEpochsButton" type="button">
+                <img  src="images/fast_forward-48dp.svg"
+                     width="20" height="20">10
+            </button>
+            <button id="next100EpochsButton" class= "nextEpochsButton" type="button">
+                <img src="images/fast_forward-48dp.svg"
+                     width="20" height="20">100
+            </button>
+                <p style="font-size: 15px">&nbsp;&nbsp;Epoka uczenia:</p>
+                <p style="font-size: x-large" id="epochNumberPointer">0</p>
+                <p style="font-size: 15px">&nbsp;&nbsp;Optymalizator:&nbsp;</p>
+                <select class="nextEpochsButton" id="optimizer">
+                    <option value="sgd">SGD</option>
+                    <option value="momentum">Momentum</option>
+                    <option value="adagrad">AdaGrad</option>
+                    <option value="adadelta">AdaDelta</option>
+                </select>
+                <p hidden style="font-size: 15px; margin-left: 10px; margin-right: 10px;" id="gammaText">Wsp. &#947;:</p>
+
+                <p style="font-size: 15px; margin-left: 10px; " id="WspUczeniaText">&nbsp;&nbsp;Wsp. uczenia:&nbsp;</p>
+                <input type="number" class="nextEpochsButton" id="learningRate" min="0.0001" max="10" value="0.1" step="0.1">
+                <p style="font-size: 15px; margin-left: 10px">&nbsp;&nbsp;Fun. straty:&nbsp;</p>
+                <select class="nextEpochsButton" id="lossFunction">
+                    <option value="meanSquaredError">Mean Squared Error</option>
+                    <option value="meanAbsoluteError">Mean Absolute Error</option>
+                </select>
+                <p style="font-size: 15px; ">&nbsp;Inic. wag:&nbsp;</p>
+                <select class="nextEpochsButton" id="weightInit">
+                    <option value="randomUniform"> Random Uniform</option>
+                    <option value="randomNormal"> Random Normal</option>
+                    <option value="glorotUniform">Glorot Uniform</option>
+                    <option value="glorotNormal">Glorot Normal</option>
+                    <option value="heUniform">He Uniform</option>
+                    <option value="heNormal">He Normal</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="modules">
+
+            <div id="functionModule">
+
+                <label style="position: relative; top: 10px; font-size: small" for="functionSize">Liczba punktów na wykresie: <span id="numberOfPoints">100</span></label>
+                <input style="position: relative; top: 10px;" type="range" id="functionSize" class="slider"
+                       min="50" max="500" value="100">
+                <p style="position: relative; top: 10px; font-size: small"> Przedział funkcji: </p>
+                <div id="ranges">
+                    <p> [&nbsp;</p>
+                    <input type="number" class="nextEpochsButton range" id="rangeMin" min="-5" max="4.9" value="-1" step="0.1">
+                    <p> &nbsp;,&nbsp;</p>
+                    <input type="number" class="nextEpochsButton range" id="rangeMax" min="-4.9" max="5" value="1" step="0.1">
+                    <p> &nbsp;]</p>
+                </div>
+                <div id="batchInfo">
+                    <div id="batchSizeInfo">
+                        <p style="font-size: small; position: relative;  top: 2px;"> Batch: </p>
+                        <input type="number" class="nextEpochsButton" id="batchSize" min="1" max="100" value="10" step="1">
+                    </div>
+                    <div id="batchShuffleInfo">
+                        <p style="font-size: small"> Mieszanie danych: </p>
+                        <!-- Rectangular switch -->
+                        <label class="switch">
+                            <input id="shuffle" type="checkbox">
+                            <span class="slider2"></span>
+                        </label>
+                    </div>
+                </div>
+                <div id="funkcje">
+
+                    <p> Wybór funkcji: </p>
+                    <input class="functionButton" id="button1" type="button" value="f(x) = x">
+                    <input class="functionButton" id="button2" type="button" value="f(x) = x^2">
+                    <input class="functionButton" id="button3" type="button" value="f(x) = x^3">
+                    <input class="functionButton" id="button4" type="button" value="f(x) = -x^2">
+                    <input class="functionButton" id="button5" type="button" value="f(x) = log(x)">
+                    <input class="functionButton" id="button6" type="button" value="f(x) = sin(x)">
+                    <input class="functionButton" id="button7" type="button" value="f(x) = sin(-x)">
+                    <input class="functionButton" id="button8" type="button" value="f(x) = cos(x)">
+                    <input class="functionButton" id="button9" type="button" value="f(x) = exp(x)">
+                    <input class="functionButton" id="button10" type="button" value="f(x) = tanh(x)">
+                    <input class="functionButton" id="button11" type="button" value="f(x) = tanh(1/x)">
+                    <input class="functionButton" id="button12" type="button" value="f(x) = abs(x)">
+                    <p id="incorrectFunction">Na podanym przedziale funkcja <br> posiada mniej niż 2 wartości</p>
+                </div>
+            </div>
+
+            <div id="hidden">
+                <div id="svgControls">
+                    <div id="networkControls">
+                        <img class='icon controls' id="minusLayerButton" src="images/remove_circle-black-24dp.svg">
+                        <p>  Warstwy ukryte: <span id="numberOfLayers"> 3</span> </p>
+                        <img class='icon controls' id="plusLayerButton" src="images/add_circle-black-24dp.svg">
+                    </div>
+                </div>
+                <div id="svgLayers"></div>
+            </div>
+
+            <div id="charts">
+                <div id="lossChart">
+                    <canvas id="lossChart1" ></canvas>
+                    <script>
+                        var ctx = document.getElementById('lossChart1');
+                        window.lossChart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: {
+                                datasets: [{
+                                    label: 'Wartość f. straty po danej epoce',
+                                    data: [],
+                                    borderColor: 'rgb(255, 0, 50)',
+                                    type: 'line',
+                                    fill:'none',
+                                    pointRadius: 0,
+                                    borderWidth: 1,
+                                    lineTension: 1.95
+                                }],
+                            },
+                            options: {
+                                scales: {
+                                    x: {
+                                        type: 'linear',
+                                        position: 'bottom',
+                                        ticks: {beginAtZero: true}
+                                    },
+                                    y: {
+                                        type: 'logarithmic',
+                                        ticks:{
+                                            callback: function (value, index, values) {
+                                                return +parseFloat(value).toFixed(6);
+                                            }
+                                        }
+                                    }
+                                },
+                                elements: {
+                                    point:{
+                                        radius: 0
+                                    }
+                                },
+                                animation:{
+                                    duration: 0
+                                }
+                            }
+                        });
+
+                        /*myChart.canvas.parentNode.style.height = '128px';
+                        myChart.canvas.parentNode.style.width = '128px';*/
+                    </script>
+                </div>
+                <!--<div id="outputActivationDiv">
+                    <p>&nbsp;&nbsp;F. aktywacji warstwy wyjściowej:&nbsp;</p>
+                    <select class="nextEpochsButton" id="outputActivation">
+                        <option value="sigmoid">Sigmoid</option>
+                        <option value="relu">ReLU</option>
+                        <option value="linear">Linear</option>
+                        <option value="tanh">Tanh</option>
+                    </select>
+
+                </div>-->
+                <div id="mainChart">
+                    <div id="divForMainChartResize">
+                        <canvas id="mainChart1" ></canvas>
+                        <script>
+                            var ctx = document.getElementById('mainChart1');
+                            window.mainChart = new Chart(ctx, {
+                                type: 'scatter',
+                                data: {
+                                    datasets: [{
+                                            label: 'Funkcja',
+                                            data: [],
+                                            backgroundColor:
+                                                'rgba(255, 206, 86, 0.2)',
+                                            borderColor:
+                                                'rgba(54, 162, 235, 1)',
+                                            borderWidth: 2,
+                                            type: 'line',
+                                            fill: 'none',
+                                            pointRadius: 1
+                                        },
+                                        {
+                                            label: 'Predykcje',
+                                            data: [],
+                                            backgroundColor:
+                                                'rgba(240, 129, 132, 0.2)',
+                                            borderColor:
+                                                'rgba(28, 0, 132, 1)',
+                                            borderWidth: 2,
+                                            pointRadius: 0,
+                                            type: 'line',
+                                            fill:'none',}]
+                                },
+                                options: {
+                                    scales: {
+                                        y: {
+                                            ticks: {
+                                                //beginAtZero: true
+                                            }
+                                        },
+                                        x: {
+                                            ticks: {
+                                                //beginAtZero: true
+                                            }
+                                        }
+                                    },
+                                    maintainAspectRatio: false
+                                }
+                            });
+
+                            /*myChart.canvas.parentNode.style.height = '128px';
+                            myChart.canvas.parentNode.style.width = '128px';*/
+                        </script>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <script type='module' src="app.js" charset="utf-8"></script>
+
+
+
+
+
+    </body>
+</html>

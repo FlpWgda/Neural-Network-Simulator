@@ -1,0 +1,455 @@
+html,body{
+    background-color: #a9bfc4;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.neuron {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 50%;
+    font-size: 5px;
+    color: #33cc33;
+    text-align: center;
+    background: #000
+}
+
+
+.icon:hover {
+    transform: scale(1.2);
+    transition: 100ms;
+    background: grey;
+    /*box-shadow: 10px 10px 5px grey;*/
+    fill: #ffd700;
+}
+.icon {
+    transition: all 100ms;
+    transform-origin: 50% 50%;
+    background: transparent;
+    border-radius: 50%;
+    border-color: black;
+}
+.single-neuron:hover {
+    transform: scale(1.2);
+    transition: 100ms;
+}
+.single-neuron {
+    background: #ffd700;
+}
+.connection:hover {
+    stroke: white;
+}
+.tooltipStyle{
+    border: 2px dashed black;
+    background-color: #a9bfc4;;
+}
+
+#top-controls {
+    position: absolute;
+    left: 200px;
+    width:600px;
+    height: 50px;
+    background: lightblue;
+}
+
+/*border-bottom: 1px solid #ddd;
+padding: 18px 0;
+box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+background: #ffcc99*/;
+
+#chart-result-container {
+    position: absolute;
+    display:inline;
+    left: 920px;
+    top: 400px;
+}
+.neuron-chart {
+    transition: all 100ms;
+    transform-origin: 50% 50%;
+    background-color:#a19696;
+    border-radius: 50%;
+    z-index: 999;
+}
+.neuron-chart:hover {
+    /*transform: scale(1.5);*/
+    transition: 100ms;
+    background: grey;
+    box-shadow: 10px 10px 5px grey;
+    fill: #ffd700;
+    z-index: 999;
+}
+
+
+#incorrectFunction{
+    position: relative;
+    left: auto;
+    color: crimson;
+    top: 10px;
+    visibility: hidden;
+    font-size: small;
+}
+#controls{
+    height: 40px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    background-color: #c2c49a;
+    box-shadow: 0px 0px 20px grey;
+    margin: 5px;
+    align-items: center;
+}
+.controlInputs{
+    background: transparent;
+    border-width: 0px;
+    width: 50px;
+    height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    border: 2px dashed black;
+}
+#epochs{
+    background: transparent;
+    border-width: 0px;
+    width: 50px;
+    height: 20px;
+    font-size: 15px;
+    font-weight: bold;
+}
+#epochNumber{
+    font-size: x-large;
+}
+#layer-controls {
+    position: absolute;
+    left: 220px;
+    top: 100px;
+}
+
+
+#modules{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#functionModule{
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 90%;
+    height: 15px;
+    background: transparent;
+    border: 2px solid black;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #4CAF50;
+    cursor: pointer;
+    border: 1px solid black;
+}
+
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+}
+
+#functionInput{
+    background: transparent;
+    resize: none;
+    position: relative;
+    top: -5px;
+    font-weight: bold;
+    border: 2px solid black
+}
+
+#f\(x\){
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    top: 55px;
+    font-size: small;
+    font-weight: bold;
+}
+
+#hidden{
+    width: 700px;
+    min-width: 700px;
+    display: flex;
+    flex-direction: column;
+}
+#svgControls{
+    display: flex;
+    flex-direction: column;
+}
+#networkControls{
+    margin: 2px;
+    max-height: 30px;
+    flex-grow: 1;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.nextEpochsButton{
+    background-color: transparent;
+    border: 2px dashed black;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    /*margin-right: 2px;*/
+}
+.setEpochsField{
+    background-color: transparent;
+    border: 2px dashed black;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+.setEpochsButton{
+    background-color: transparent;
+    border: 0px;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    margin-right: 2px;
+}
+.nextEpochsButton:hover{
+    background-color: grey;
+    transform: scale(1.01);
+}
+.setEpochsButton:hover{
+    background-color: grey;
+    transform: scale(1.01);
+}
+
+#svgLayers{
+    border: 2px dashed firebrick;
+    flex-grow: 1;
+}
+#restartMessage{
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+}
+#restartBanner{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255,255,255,0.40);
+}
+.layerOptions{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.layerSizeControls{
+    height: 25px;
+    margin-bottom: 2px;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+
+
+#charts{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+}
+#lossChart{
+    flex-grow: 1;
+}
+#mainChart{
+    flex-grow: 3;
+    max-height: 70vh;
+}
+#divForLossChartResize{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+#divForMainChartResize{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+
+#weightTooltip{
+    border: 2px dotted red;
+}
+.weightLine{
+    /*stroke-dasharray: 10;
+    animation: dash 5s linear infinite;*/
+}
+@keyframes dash {
+    to {
+        stroke-dashoffset: 50;
+    }
+}
+.neuron2 {
+    /*border-radius: 50%;
+    width: 101px;
+    height: 40px;*/
+}
+.canvasBorder{
+    /*border: 2px dashed black;*/
+}
+#outputActivationDiv{
+    display: flex;
+    flex-direction: row;
+    height: 20px;
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+}
+#ranges{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+#batchInfo{
+    display: flex;
+    flex-direction: row;
+}
+#batchSizeInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#batchShuffleInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#functionInputInfo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+/* The switch - the box around the slider2 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider2 */
+.slider2 {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    border: 2px solid black;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider2:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 30px;
+    left: 0px;
+    top: 0px;
+    background-color: white;
+    border: 1px solid black;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider2 {
+    background-color: #4CAF50;
+}
+
+input:focus + .slider2 {
+}
+
+input:checked + .slider2:before {
+    -webkit-transform: translateX(25px);
+    -ms-transform: translateX(25px);
+    transform: translateX(25px);
+}
+#funkcje{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.functionButton{
+    position: relative;
+    border: 2px solid black;
+    background-color: #a9bfc4;
+    margin: 2px;
+    border-radius: 5px;
+    width: 120px;
+
+}
+.functionButton:hover{
+    background-color: grey;
+    transform: scale(1.05);
+}
+.range{
+}
+#params{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.border{
+    border-left: 1px solid black;
+}
