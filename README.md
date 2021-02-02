@@ -8,4 +8,4 @@ approximation.
 
 tensorflow.js, chart.js, machinelearn.js
 
-![Screen from the application](https://github.com/FlpWgda/Neural-Network-Simulator/blob/master/screen.png)
+![Screen from the application](/screen2.png)
